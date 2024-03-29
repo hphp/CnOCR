@@ -79,22 +79,22 @@ def get_ocr_model(det_model_name, rec_model_name, det_more_configs):
     )
 
 
-def visualize_naive_result(img, det_model_name, std_out, box_score_thresh):
+def visualize_naive_result(img, det_model_name, std_out, box_score_thresh, out_fp_header='./streamlit-app'):
     if len(std_out) < 1:
         st.warning(f'未检测到文本！')
         return
     img = pil_to_numpy(img).transpose((1, 2, 0)).astype(np.uint8)
 
-    plot_for_debugging(img, std_out, box_score_thresh, 2, './streamlit-app')
+    plot_for_debugging(img, std_out, box_score_thresh, 2, out_fp_header)
     st.subheader('Detection Result')
     if det_model_name == 'default_det':
         st.warning('⚠️ Warning: "default_det" 检测模型不返回文本框位置！')
     cols = st.columns([1, 7, 1])
-    cols[1].image('./streamlit-app-result.png')
+    cols[1].image(out_fp_header+'-result.png')
 
     st.subheader('Recognition Result')
     cols = st.columns([1, 7, 1])
-    cols[1].image('./streamlit-app-crops.png')
+    cols[1].image(out_fp_header+'-crops.png')
 
     _visualize_ocr(std_out)
 
@@ -112,8 +112,8 @@ def _visualize_ocr(ocr_outs):
     st.table(ocr_res)
 
 
-def visualize_result(img, ocr_outs):
-    out_draw_fp = './streamlit-app-det-result.png'
+def visualize_result(img, ocr_outs, out_fp_header='./streamlit-app'):
+    out_draw_fp = out_fp_header+'-det-result.png'
     font_path = 'docs/fonts/simfang.ttf'
     if not os.path.exists(font_path):
         url = 'https://huggingface.co/datasets/breezedeus/cnocr-wx-qr-code/resolve/main/fonts/simfang.ttf'
