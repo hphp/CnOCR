@@ -25,7 +25,7 @@ def demo(img_fp):
 	img = Image.open(img_fp).convert('RGB')
 	vis_fp_header = img_fp.replace('.png', '')
 	app.visualize_naive_result(img, det_model_name, out, 0, vis_fp_header)
-	app.visualize_result(img, ocr, vis_fp_header)
+	app.visualize_result(img, out, vis_fp_header)
 
 def demo_dp(dp):
 	from daVinci.Wheels import util
